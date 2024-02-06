@@ -38,6 +38,22 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
+    public void delete(Product product) {
+        productRepository.delete(product);
+    }
+
+    @Override
+    public void deleteProductByID(int productId) {
+        List<Product> allProduct = findAll();
+        for(Product willBeDeletedProduct : allProduct){
+            int willBeDeletedProductId = Integer.parseInt(willBeDeletedProduct.getProductId());
+            if(willBeDeletedProductId == productId){
+                productRepository.delete(willBeDeletedProduct);
+            }
+        }
+    }
+
+    @Override
     public List<Product> findAll(){
         Iterator<Product> productIterator = productRepository.findAll();
         List<Product> allProduct = new ArrayList<>();
