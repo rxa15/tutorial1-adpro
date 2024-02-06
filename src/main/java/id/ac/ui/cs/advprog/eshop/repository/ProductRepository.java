@@ -34,6 +34,18 @@ public class ProductRepository {
         return null; // product dijamin ditemukan di data product
     }
 
+    public void delete(Product product){
+        for(Product willBeDeletedProduct : productData){
+            int willBeDeletedProductId = Integer.parseInt(willBeDeletedProduct.getProductId());
+
+            int productId = Integer.parseInt(product.getProductId());
+
+            if(willBeDeletedProductId == productId){
+                productData.remove(product);
+            }
+        }
+    }
+
     public Iterator<Product> findAll(){
 
         return productData.iterator();
