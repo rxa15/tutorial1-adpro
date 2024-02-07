@@ -11,6 +11,7 @@ import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService{
+    int counterId = 1;
 
     @Autowired
     private ProductRepository productRepository;
@@ -18,6 +19,8 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public Product create(Product product){
         productRepository.create(product);
+        product.setProductId(String.valueOf(counterId));
+        counterId += 1;
         return product;
     }
 
@@ -26,11 +29,10 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public Product getProductByID(int productId) {
+    public Product getProductByID(String productId) {
         List<Product> allProduct = findAll();
         for(Product currentProduct : allProduct){
-            int currentProductID = Integer.parseInt(currentProduct.getProductId());
-            if(currentProductID == productId){
+            if(currentProduct.getProductId().equals(productId)){
                 return currentProduct;
             }
         }
@@ -38,7 +40,7 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public void deleteProductById(int productId) {
+    public void deleteProductById(String productId) {
         productRepository.deleteProductById(productId);
     }
 
@@ -48,5 +50,10 @@ public class ProductServiceImpl implements ProductService{
         List<Product> allProduct = new ArrayList<>();
         productIterator.forEachRemaining(allProduct::add);
         return allProduct;
+    }
+
+    @Override
+    public Product findProductById(String productId) {
+        return productRepository.findById(productId);
     }
 }
