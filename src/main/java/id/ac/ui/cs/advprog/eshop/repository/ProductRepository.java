@@ -10,22 +10,29 @@ import java.util.List;
 public class ProductRepository {
     private List<Product> productData = new ArrayList<>();
 
-    public Product create(Product product){
+    public Product create(Product product) {
         productData.add(product);
-        product.setProductId(String.valueOf(productData.size()));
         return product;
+    }
+
+    public Product findById(String productId) {
+        for (Product product : productData) {
+            if (product.getProductId().equals(productId)) {
+                return product;
+            }
+        }
+        return null;
     }
 
     public Product edit(Product product){
         for(Product currentProduct : productData){
+            String currentProductId = currentProduct.getProductId();
 
-            int currentProductID = Integer.parseInt(currentProduct.getProductId());
-
-            int productID = Integer.parseInt(product.getProductId());
+            String productID = product.getProductId();
             String productName = product.getProductName();
             int productQuantity = product.getProductQuantity();
 
-            if(currentProductID == productID){
+            if(currentProductId.equals(productID)){
                 currentProduct.setProductName(productName);
                 currentProduct.setProductQuantity(productQuantity);
                 return currentProduct;
@@ -34,7 +41,7 @@ public class ProductRepository {
         return null; // product dijamin ditemukan di data product
     }
 
-    public void delete(int productId){
+    public void delete(String productId){
         productData.remove(productId);
     }
 
@@ -42,11 +49,9 @@ public class ProductRepository {
         productData.remove(product);
     }
 
-    public void deleteProductById(int productId){
+    public void deleteProductById(String productId){
         for(Product willBeDeletedProduct : productData){
-            int willBeDeletedProductId = Integer.parseInt(willBeDeletedProduct.getProductId());
-
-            if(willBeDeletedProductId == productId){
+            if(willBeDeletedProduct.getProductId().equals(productId)){
                 delete(willBeDeletedProduct);
                 break;
             }
@@ -56,5 +61,14 @@ public class ProductRepository {
     public Iterator<Product> findAll(){
 
         return productData.iterator();
+    }
+
+    public Product findProductById(String productId) {
+        for (Product product : productData) {
+            if (product.getProductId().equals(productId)) {
+                return product;
+            }
+        }
+        return null;
     }
 }
