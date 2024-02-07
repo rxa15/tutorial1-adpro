@@ -63,4 +63,47 @@ class ProductRepositoryTest {
         assertEquals(product2.getProductId(), savedProduct.getProductId());
         assertFalse(productIterator.hasNext());
     }
+
+    @Test
+    void testEditProduct() {
+        Product product = new Product();
+        product.setProductId("0118");
+        product.setProductName("Susu Hilo");
+        product.setProductQuantity(10);
+        productRepository.create(product);
+
+        Product editedProduct = new Product();
+        editedProduct.setProductId("0118");
+        editedProduct.setProductName("Susu Milo");
+        editedProduct.setProductQuantity(20);
+        Product updatedProduct = productRepository.edit(editedProduct);
+
+        assertNotNull(updatedProduct);
+        assertEquals("Susu Milo", updatedProduct.getProductName());
+        assertEquals(20, updatedProduct.getProductQuantity());
+    }
+
+    @Test
+    void testEditProductNegative() {
+        Product editedProduct = new Product();
+        editedProduct.setProductId("0115");
+        editedProduct.setProductName("Susu Greenfield");
+        editedProduct.setProductQuantity(20);
+
+        assertDoesNotThrow(() -> productRepository.edit(editedProduct));
+    }
+
+    @Test
+    void testDeleteProduct() {
+        Product product = new Product();
+        product.setProductId("eb558e9f-1c39-460e-8860-71af6af630115");
+        product.setProductName("Susu Hilo");
+        product.setProductQuantity(10);
+        productRepository.create(product);
+
+        productRepository.delete(product);
+
+        Product deletedProduct = productRepository.findProductById("eb558e9f-1c39-460e-8860-71af6af630115");
+        assertNull(deletedProduct);
+    }
 }
