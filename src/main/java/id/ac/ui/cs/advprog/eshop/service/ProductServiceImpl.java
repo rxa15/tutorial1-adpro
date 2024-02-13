@@ -24,19 +24,9 @@ public class ProductServiceImpl implements ProductService{
         return product;
     }
 
-    public void edit(Product product){
-        productRepository.edit(product);
-    }
+    public Product edit(Product product){
 
-    @Override
-    public Product getProductByID(String productId) {
-        List<Product> allProduct = findAll();
-        for(Product currentProduct : allProduct){
-            if(currentProduct.getProductId().equals(productId)){
-                return currentProduct;
-            }
-        }
-        return null; // product dijamin ditemukan di data product
+        return productRepository.edit(product);
     }
 
     @Override

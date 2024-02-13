@@ -67,7 +67,6 @@ public class ProductControllerTest {
     void testEditProductPage(){
         Model model = mock(Model.class);
         Product product = new Product();
-//        Mockito.when(productService.findProductById("eb558e9f-1c39-460e-8860-71af6af63bd6")).thenReturn(product);
         String result = productController.editProductPage(model,"eb558e9f-1c39-460e-8860-71af6af63bd6");
         assertEquals("editProduct", result);
     }

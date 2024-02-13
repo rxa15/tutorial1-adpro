@@ -56,10 +56,6 @@ public class ProductRepository {
         return null; // product dijamin ditemukan di data product
     }
 
-    public void delete(String productId){
-        productData.remove(productId);
-    }
-
     public void delete(Product product){
         productData.remove(product);
     }
