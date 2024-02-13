@@ -94,6 +94,44 @@ class ProductRepositoryTest {
     }
 
     @Test
+    void testBlankProductNameHandling(){
+        Product product = new Product();
+        product.setProductId("222");
+        product.setProductName("");
+        product.setProductQuantity(10);
+
+        productRepository.create(product);
+        assertEquals("Produk Tidak Diketahui", product.getProductName());
+    }
+
+    @Test
+    void testNegativeProductQuantityHandling(){
+        Product product = new Product();
+        product.setProductId("333");
+        product.setProductName("Susu Milo");
+        product.setProductQuantity(-22);
+
+        productRepository.create(product);
+
+        assertEquals(0, product.getProductQuantity());
+    }
+
+    @Test
+    void testEditExistingProduct(){
+        Product existingProduct = new Product();
+        existingProduct.setProductId("1054");
+        existingProduct.setProductName("Susu Hilo");
+        existingProduct.setProductQuantity(10);
+
+        productRepository.create(existingProduct);
+
+        existingProduct.setProductName("Susu Milo");
+        Product editedProduct = productRepository.edit(existingProduct);
+
+        assertEquals(existingProduct, editedProduct);
+    }
+
+    @Test
     void testDeleteProduct() {
         Product product = new Product();
         product.setProductId("eb558e9f-1c39-460e-8860-71af6af630115");
