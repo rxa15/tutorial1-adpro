@@ -1,4 +1,9 @@
-# Reflection 1
+# Deployment
+
+# Module 1
+<details>
+<summary>Reflection 1</summary>
+
 Previously, during Platform Based Programming course, I found it hard to create a web-based project. One of the reasons
 to that might be my disliking towards programming. Well, my programming journey was hard, I faced many obstacles in learning
 how to code. However, things started to change when I looked back to my midterms & finals project for PBP class. Maybe
@@ -31,7 +36,11 @@ Turns out it was a big mistake. Therefore, right now I only explain my thoughts 
 
     I implemented `assertNull` and `assertNotNull` to check whether the object is null or not. However, I still returned null
 in some places on my code but yeah that means I still have rooms for improvement right?!
-# Reflection 2
+</details>
+
+<details>
+<summary>Reflection 2</summary>
+
 1. After writing the unit tests and passing all the tests, I feel genuinely proud of my own code (note: I used to have
 difficulties in testing my code for a period of time). In my opinion, the amount of unit tests that we should create
 in our class depends on many factors, such as code complexity. The more complex the code is, the more unit tests should
@@ -41,4 +50,7 @@ case that were made had already covered all functionalities of the code.
 2. From what I have learned in this class, I strongly disagree to the creation of new Java class similar to prior functional
 test suites that have been made. It will be redundant to write the same implementations over and over again, besides it will
 also reduce the code efficiency and cleanliness. Therefore, I suggest to implement the logic into one test class so that 
-there won't be any duplicates while keep ensuring the test cover for both features. 
+there won't be any duplicates while keep ensuring the test cover for both features.
+</details>
+
+# Module 2
