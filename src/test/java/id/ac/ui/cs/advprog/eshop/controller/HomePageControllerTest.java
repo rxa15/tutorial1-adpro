@@ -21,6 +21,6 @@ class HomePageControllerTest {
     @Test
     void homePageReturnString() {
         String result = homePageController.homePage();
-        assertEquals("homepage", result);
+        assertEquals("HomePage", result);
     }
 }

@@ -43,7 +43,7 @@ public class ProductControllerTest {
     void testCreateProductPage(){
         Model model = mock(Model.class);
         String result = productController.createProductPage(model);
-        assertEquals("createProduct", result);
+        assertEquals("CreateProduct", result);
     }
 
     @Test
@@ -60,7 +60,7 @@ public class ProductControllerTest {
         Model model = mock(Model.class);
         Mockito.when(productService.findAll()).thenReturn(null);
         String result = productController.productListPage(model);
-        assertEquals("listProduct", result);
+        assertEquals("ListProduct", result);
     }
 
     @Test
@@ -68,7 +68,7 @@ public class ProductControllerTest {
         Model model = mock(Model.class);
         Product product = new Product();
         String result = productController.editProductPage(model,"eb558e9f-1c39-460e-8860-71af6af63bd6");
-        assertEquals("editProduct", result);
+        assertEquals("EditProduct", result);
     }
 
     @Test
