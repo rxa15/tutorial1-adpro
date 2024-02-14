@@ -54,3 +54,26 @@ there won't be any duplicates while keep ensuring the test cover for both featur
 </details>
 
 # Module 2
+<details>
+<summary>Reflection</summary>
+
+### Code Quality Issues That I Fixed
+Here are the list of code quality issues that were detected by PMD and how I fixed them:
+1. **Unnecessary modifier `public` on method ... :the method is declared in an interface type**
+The methods which were detected with this issue by PMD are methods in an Interface. However, an Interface
+has `public` modifier by default. Therefore, there is no need for me to redeclare the modifier on the methods. 
+To address this issue, I removed the `public` modifier from the methods.
+2. **Unused import `org.springframework.web.bind.annotation.*`**
+I did not fix this issue because the line was originated from the first version of this project (I followed the tutorial)
+so I thought it was unnecessary to delete the code.
+3. **Unused local variable `product`**
+I used the variable on deleteProductPage method in ProductController.java. At first, the parameter for `service.deleteProductById`
+was `productId`, then I changed it into `product.getProductId()` so that it used `product` variable.
+
+### CI/CD Implementations in This Project
+As I see it, I believe that I have already implemented CI/CD in my project. For Continuous Integration (CI), I have created workflows that
+are executed automatically whenever there are push/pull request to any branches (you can see the implementations in `ci.yml`
+to run test suites and `pmd.yml` & `scorecard.yml` to address security issues). As for Continuous Development (CD), I 
+used `Koyeb` as a deployment platform (and it is connected with my Github too!)
+so that I ensure the continous development for this project.
+</details>
