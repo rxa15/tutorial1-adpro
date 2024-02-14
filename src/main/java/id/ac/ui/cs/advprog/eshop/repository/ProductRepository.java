@@ -6,25 +6,40 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 @Repository
 public class ProductRepository {
     private List<Product> productData = new ArrayList<>();
 
     public Product create(Product product) {
+        // Handle invalid input
+
+        // Case 1: Blank product name
+        if("".equals(product.getProductName())){
+            product.setProductName("Produk Tidak Diketahui");
+        }
+
+        // Case 2: Negative product quantity
+        if(product.getProductQuantity() < 0){
+            product.setProductQuantity(0);
+        }
+
         productData.add(product);
         return product;
     }
 
-    public Product findById(String productId) {
-        for (Product product : productData) {
-            if (product.getProductId().equals(productId)) {
-                return product;
-            }
-        }
-        return null;
-    }
-
     public Product edit(Product product){
+        // Handle invalid input
+        // Case 1: Blank product name
+        if("".equals(product.getProductName())){
+            product.setProductName("Produk Tidak Diketahui");
+        }
+
+        // Case 2: Negative product quantity
+        if(product.getProductQuantity() < 0){
+            product.setProductQuantity(0);
+        }
+
         for(Product currentProduct : productData){
             String currentProductId = currentProduct.getProductId();
 
@@ -39,10 +54,6 @@ public class ProductRepository {
             }
         }
         return null; // product dijamin ditemukan di data product
-    }
-
-    public void delete(String productId){
-        productData.remove(productId);
     }
 
     public void delete(Product product){
