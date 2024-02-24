@@ -77,3 +77,40 @@ to run test suites and `pmd.yml` & `scorecard.yml` to address security issues). 
 used `Koyeb` as a deployment platform (and it is connected with my Github too!)
 so that I ensure the continous development for this project.
 </details>
+
+# Module 3
+<details>
+<summary>Reflection</summary>
+
+### SOLID Principles That I Have Applied to My Project
+1. I have implemented the **Single Responsibility Principle (SRP)** in the Controller. Initially, both the CarController 
+class and the ProductController class were in the same file. However, this approach was not recommended as the 
+ProductController had more than one responsibility. Therefore, I separated the CarController into its own class and 
+moved it to a different file for better organization and adherence to SRP principles. Moreover, I also created HomePageController
+so that requests from server could be mapped to homepage.
+2. I have also applied the **Liskov Substitution Principle (LSP)** in the Controller. My decision to separate the 
+CarController class from the ProductController class was influenced by the fact that CarController was a subclass of 
+ProductController. Given their distinct implementations, it was not feasible to merge them into a single class. 
+Consequently, I opted to segregate them. Additionally, I refrained from utilizing the `extends` keyword in CarController
+to ensure it functions independently as its own class without inheriting the functionalities of the ProductController class.
+3. I have implemented the **Interface Segregation Principle (ISP)** in the Service. Both ProductService and CarService class
+are already broken down into smaller and more specific interfaces that function only for Product and Car.
+4. I have also implemented the **Dependency Inversion Principle (DIP)** in the Controller. Initially, the CarController 
+class had a direct dependency on CarServiceImpl, which was not ideal as it should be dependent on the CarService interface 
+rather than its concrete implementation. To adhere to best practices, I modified it to have a private member 
+`CarService carService`, thus decoupling it from the specific implementation and instead relying on the abstraction 
+provided by the interface.
+
+### The Advantages of Applying SOLID Principles to My Project
+As I see it, the incorporation of SOLID Principles in this project has greatly enhanced its long-term maintainability and organization. 
+Moreover, there is no need to change most parts of the code whenever I want to make a change. The reduced code density 
+per file has facilitated error detection and comprehension of individual class functionalities. As a result, debugging has become more manageable.
+Additionally, I have observed that my peers and teaching assistants find it easier to grasp the functionality of my code, 
+particularly when trouble arises.
+### The Disadvantages of NOT Applying SOLID Principles to My Project
+The absence of SOLID Principles in this project would considerably hinder its long-term maintainability and organization.
+Furthermore, before applying SOLID principles, I often found myself needing to modify numerous sections of the code 
+whenever a change is required. The heightened code density per file has complicated error detection and understanding of
+each class functionalities. Consequently, debugging was way more challenging. Moreover, it would not turn into a good situation
+if this was a group project since everyone would have difficulties in understanding my code.
+</details>
