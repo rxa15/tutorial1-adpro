@@ -37,7 +37,7 @@ public class OrderTest {
 
     @Test
     void testCreateOrderDefaultStatus() {
-        Order order = new Order("13652556-012a-4c7-b546-54eb1396d79b",
+        Order order = new Order("13652556-012a-4c07-b546-54eb1396d79b",
                 this.products, 1708560000L, "Safira Sudrajat");
 
         assertSame(this.products, order.getProducts());
