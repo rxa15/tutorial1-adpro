@@ -14,15 +14,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.util.AssertionErrors.assertNull;
 
 @ExtendWith(MockitoExtension.class)
-class OrderServiceImplTest {
+public class OrderServiceImplTest {
     @InjectMocks
     OrderServiceImpl orderService;
     @Mock
@@ -30,7 +27,7 @@ class OrderServiceImplTest {
     List<Order> orders;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         List<Product> products = new ArrayList<>();
         Product product1 = new Product();
         product1.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
@@ -48,7 +45,7 @@ class OrderServiceImplTest {
     }
 
     @Test
-    void testCreateOrder(){
+    void testCreateOrder() {
         Order order = orders.get(1);
         doReturn(order).when(orderRepository).save(order);
 
@@ -58,7 +55,7 @@ class OrderServiceImplTest {
     }
 
     @Test
-    void testCreateOrderIfAlreadyExists(){
+    void testCreateOrderIfAlreadyExist() {
         Order order = orders.get(1);
         doReturn(order).when(orderRepository).findById(order.getId());
 
@@ -67,7 +64,7 @@ class OrderServiceImplTest {
     }
 
     @Test
-    void testUpdateStatus(){
+    void testUpdateStatus() {
         Order order = orders.get(1);
         Order newOrder = new Order(order.getId(), order.getProducts(), order.getOrderTime(),
                 order.getAuthor(), OrderStatus.SUCCESS.getValue());
@@ -82,7 +79,7 @@ class OrderServiceImplTest {
     }
 
     @Test
-    void testUpdateStatusInvalidStatus(){
+    void testUpdateStatusInvalidStatus() {
         Order order = orders.get(1);
         doReturn(order).when(orderRepository).findById(order.getId());
 
@@ -93,17 +90,17 @@ class OrderServiceImplTest {
     }
 
     @Test
-    void testUpdateStatusInvalidOrderId(){
+    void testUpdateStatusInvalidOrderId() {
         doReturn(null).when(orderRepository).findById("zczc");
 
-        assertThrows(NoSuchElementException.class,
+        assertThrows(IllegalArgumentException.class,
                 () -> orderService.updateStatus("zczc", OrderStatus.SUCCESS.getValue()));
 
         verify(orderRepository, times(0)).save(any(Order.class));
     }
 
     @Test
-    void testFindByIdIfIdFound(){
+    void testFindByIdIfIdFound() {
         Order order = orders.get(1);
         doReturn(order).when(orderRepository).findById(order.getId());
 
@@ -112,25 +109,25 @@ class OrderServiceImplTest {
     }
 
     @Test
-    void testFindByIdIfIdNotFound(){
+    void testFindByIdIfIdNotFound() {
         doReturn(null).when(orderRepository).findById("zczc");
         assertNull(orderService.findById("zczc"));
     }
 
     @Test
-    void testFindAllByAuthorIfAuthorCorrect(){
+    void testFindAllByAuthorIfAuthorCorrect() {
         Order order = orders.get(1);
         doReturn(orders).when(orderRepository).findAllByAuthor(order.getAuthor());
 
         List<Order> results = orderService.findAllByAuthor(order.getAuthor());
-        for (Order result : results){
+        for (Order result : results) {
             assertEquals(order.getAuthor(), result.getAuthor());
         }
         assertEquals(2, results.size());
     }
 
     @Test
-    void testFindAllByAuthorIfAllLowercase(){
+    void testFindAllByAuthorIfAllLowercase() {
         Order order = orders.get(1);
         doReturn(new ArrayList<Order>()).when(orderRepository)
                 .findAllByAuthor(order.getAuthor().toLowerCase());
