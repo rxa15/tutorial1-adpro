@@ -114,3 +114,16 @@ whenever a change is required. The heightened code density per file has complica
 each class functionalities. Consequently, debugging was way more challenging. Moreover, it would not turn into a good situation
 if this was a group project since everyone would have difficulties in understanding my code.
 </details>
+
+# Module 4
+<details>
+<summary>Reflection</summary>
+
+### Implementing TDD
+I employ Test-Driven Development (TDD) for my Payment model, where I first write tests before implementing the code itself. Following the guidance provided in a tutorial, I ensure comprehensive test coverage by including various edge cases, albeit encountering initial challenges in doing so. Nonetheless, I find TDD Practice beneficial as it allows me to experiment with diverse testing techniques, thereby enhancing the overall code coverage of my project.
+
+### Reflection F.I.R.S.T
+Certainly! Here's a paraphrased version:
+
+Indeed, I've applied the F.I.R.S.T principles in my implementation. The majority of my unit tests are completed in under 1 second, resulting in swift execution. To ensure code independence, I rely on Mock to remove dependencies. Additionally, all my tests are consistently repeatable. I utilize Assertions to establish boolean value outputs for self-validation. Lastly, I prioritize timely test creation before actual code implementation.
+</details>

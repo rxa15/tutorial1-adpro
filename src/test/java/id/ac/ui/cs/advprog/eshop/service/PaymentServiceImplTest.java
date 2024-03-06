@@ -1,6 +1,6 @@
 package id.ac.ui.cs.advprog.eshop.service;
 
-
+import id.ac.ui.cs.advprog.eshop.enums.PaymentMethod;
 import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
 import id.ac.ui.cs.advprog.eshop.model.*;
 import id.ac.ui.cs.advprog.eshop.repository.PaymentRepository;
@@ -23,11 +23,12 @@ class PaymentServiceImplTest {
     @Mock
     PaymentRepository paymentRepository;
     List<Map<String, String>> paymentData;
+    List<Payment> payments = new ArrayList<>();
     List<Order> orders;
 
     @BeforeEach
     void setUp() {
-
+        paymentData = new ArrayList<>();
         // Make product
         List<Product> products = new ArrayList<>();
         Product product1 = new Product();
@@ -44,20 +45,23 @@ class PaymentServiceImplTest {
         orders.add(order2);
 
         // Make payment data
-        Map<String, String> paymentData1 = new HashMap<String, String>();
+        Map<String, String> paymentData1 = new HashMap<>();
         paymentData1.put("voucherCode", "ESHOP1234ABC5678");
         paymentData.add(paymentData1);
+        payments.add(new Payment("13652556-012a-4c07-b546-54eb1396d79b", order1, PaymentMethod.VOUCHER_CODE.getValue(), PaymentStatus.SUCCESS.getValue(), paymentData1));
 
-        Map<String, String> paymentData2 = new HashMap<String, String>();
+        Map<String, String> paymentData2 = new HashMap<>();
         paymentData2.put("address", "Jalan Anggur");
         paymentData2.put("deliveryFee", "12000");
         paymentData.add(paymentData2);
+        payments.add(new Payment("7f9e15bb-4b15-42f4-aebc-c3af385fb078", order2, PaymentMethod.COD.getValue(), PaymentStatus.SUCCESS.getValue(), paymentData2));
+
     }
 
     @Test
     void testCreatePaymentVoucherCode() {
         String id = "75c64e96-d4d7-454b-8ee5-7086efff516c";
-        Payment payment = new PaymentVoucherCode(id, orders.get(1), paymentData.get(0));
+        Payment payment = new PaymentVoucher(orders.get(1), payments.get(1).getMethod(), payments.get(1).getStatus(), paymentData.get(0));
 
         doReturn(payment).when(paymentRepository).save(payment);
         Payment result = paymentService.addPayment(id, orders.get(1), "VOUCHER_CODE", paymentData.get(0));
@@ -70,9 +74,9 @@ class PaymentServiceImplTest {
     @Test
     void testCreatePaymentIfAlreadyExists() {
         String id = "75c64e96-d4d7-454b-8ee5-7086efff516c";
-        Payment payment = new PaymentVoucherCode(id, orders.get(1), paymentData.get(0));
+        Payment payment = new PaymentVoucher(orders.get(1), payments.get(1).getMethod(), payments.get(1).getStatus(), paymentData.get(0));
 
-        doReturn(payment).when(paymentRepository).findById(payment.getId());
+        doReturn(Optional.of(payment)).when(paymentRepository).findById(payment.getId());
 
         assertNull(paymentService.addPayment(id, orders.get(1), "VOUCHER_CODE", paymentData.get(0)));
         verify(paymentRepository, times(0)).save(payment);
@@ -80,13 +84,13 @@ class PaymentServiceImplTest {
 
     @Test
     void testSetStatus() {
-        Payment payment = new PaymentCashOnDelivery("75c64e96-d4d7-454b-8ee5-7086efff516c", orders.get(1), paymentData.get(0));
+        Payment payment = new PaymentCOD(orders.get(1), payments.get(1).getMethod(), payments.get(1).getStatus(), paymentData.get(0));
         assertEquals(PaymentStatus.REJECTED.getValue(), payment.getStatus());
 
-        Payment newPayment = new PaymentVoucherCode(payment.getId(), payment.getOrder(), paymentData.get(1));
+        Payment newPayment = new PaymentVoucher(orders.get(1), payments.get(1).getMethod(), payments.get(1).getStatus(), paymentData.get(0));
 
 
-        doReturn(payment).when(paymentRepository).findById(payment.getId());
+        doReturn(Optional.of(payment)).when(paymentRepository).findById(payment.getId());
         doReturn(newPayment).when(paymentRepository).save(any(Payment.class));
 
         Payment result = paymentService.setStatus(payment, PaymentStatus.SUCCESS.getValue());
@@ -99,10 +103,10 @@ class PaymentServiceImplTest {
 
     @Test
     void testSetStatusInvalidStatus() {
-        Payment payment = new PaymentCashOnDelivery("75c64e96-d4d7-454b-8ee5-7086efff516c", orders.get(1), paymentData.get(0));
+        Payment payment = new PaymentCOD(orders.get(1), payments.get(1).getMethod(), payments.get(1).getStatus(), paymentData.get(0));
         assertEquals(PaymentStatus.REJECTED.getValue(), payment.getStatus());
 
-        doReturn(payment).when(paymentRepository).findById(payment.getId());
+        doReturn(Optional.of(payment)).when(paymentRepository).findById(payment.getId());
 
         assertThrows(IllegalArgumentException.class,
                 () -> paymentService.setStatus(payment, "MEOW"));
@@ -113,9 +117,9 @@ class PaymentServiceImplTest {
 
     @Test
     void testSetStatusInvalidPaymentId() {
-        Payment payment = new PaymentCashOnDelivery("75c64e96-d4d7-454b-8ee5-7086efff516c", orders.get(1), paymentData.get(0));
+        Payment payment = new PaymentCOD(orders.get(1), payments.get(1).getMethod(), payments.get(1).getStatus(), paymentData.get(0));
 
-        doReturn(null).when(paymentRepository).findById(payment.getId());
+        doReturn(Optional.empty()).when(paymentRepository).findById(payment.getId());
 
         assertThrows(NoSuchElementException.class,
                 () -> paymentService.setStatus(payment, PaymentStatus.SUCCESS.getValue()));
@@ -125,9 +129,9 @@ class PaymentServiceImplTest {
 
     @Test
     void testGetPaymentIfIdFound() {
-        Payment payment = new PaymentCashOnDelivery("75c64e96-d4d7-454b-8ee5-7086efff516c", orders.get(1), paymentData.get(0));
+        Payment payment = new PaymentCOD(orders.get(1), payments.get(1).getMethod(), payments.get(1).getStatus(), paymentData.get(0));
 
-        doReturn(payment).when(paymentRepository).findById(payment.getId());
+        doReturn(Optional.of(payment)).when(paymentRepository).findById(payment.getId());
 
         Payment result = paymentService.getPayment(payment.getId());
         assertEquals(payment.getId(), result.getId());
@@ -135,14 +139,14 @@ class PaymentServiceImplTest {
 
     @Test
     void testGetPaymentIfIfIdNotFound() {
-        Payment payment = new PaymentCashOnDelivery("75c64e96-d4d7-454b-8ee5-7086efff516c", orders.get(1), paymentData.get(0));
+        Payment payment = new PaymentCOD(orders.get(1), payments.get(1).getMethod(), payments.get(1).getStatus(), paymentData.get(0));
 
         assertNull(paymentService.getPayment(payment.getId()));
     }
 
     @Test
     void testGetAllPayments() {
-        Payment payment = new PaymentCashOnDelivery("75c64e96-d4d7-454b-8ee5-7086efff516c", orders.get(1), paymentData.get(0));
+        Payment payment = new PaymentCOD(orders.get(1), PaymentMethod.VOUCHER_CODE.getValue(), PaymentStatus.SUCCESS.getValue(), paymentData.get(0));
         List<Payment> payments = new ArrayList<>();
         payments.add(payment);
 

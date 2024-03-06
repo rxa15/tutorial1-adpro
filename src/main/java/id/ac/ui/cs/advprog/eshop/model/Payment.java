@@ -5,7 +5,6 @@ import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
 
 import lombok.Getter;
 
-import java.util.Arrays;
 import java.util.Map;
 import java.util.UUID;
 
@@ -42,7 +41,7 @@ public class Payment {
         setPaymentData(paymentData);
     }
 
-    private void setPaymentStatus(String status){
+    public void setPaymentStatus(String status){
         if(PaymentStatus.contains(status)){
             this.status = status;
         }
@@ -51,27 +50,11 @@ public class Payment {
         }
     }
 
-    private void setPaymentData(Map<String, String>paymentData){
-        if (method.equals(PaymentMethod.VOUCHER_CODE.getValue())){
-            int numbers = 0;
-            for (int i=0; i < paymentData.get("voucherCode").length(); i++){
-                if (Character.isDigit(paymentData.get("voucherCode").charAt(i))){
-                    numbers += 1;
-                }
-            }
-            if (paymentData.get("voucherCode").length()!= 16 ||
-                    !paymentData.get("voucherCode").startsWith("ESHOP") ||
-                    numbers != 8){
-                throw new IllegalArgumentException("Voucher Code is invalid!");
-            }
-        } else if (method.equals(PaymentMethod.COD.getValue())){
-            if (paymentData.get("address").isBlank() ||
-                    paymentData.get("deliveryFee").isBlank()){
-                throw new IllegalArgumentException();
-            }
-        } else {
+    protected void setPaymentData(Map<String, String>paymentData){
+        if(PaymentMethod.contains(this.method)){
+            this.paymentData = paymentData;
+        } else{
             throw new IllegalArgumentException();
         }
-        this.paymentData = paymentData;
     }
 }
