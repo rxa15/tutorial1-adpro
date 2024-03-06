@@ -42,6 +42,7 @@ class PaymentRepositoryTest {
         orders.add(order3);
 
         // Make payments
+        payments = new ArrayList<>();
         Map<String, String> paymentData1 = new HashMap<String, String>();
         paymentData1.put("voucherCode", "ESHOP1234ABC5678");
         Payment payment1 = new Payment("13652556-0115-4c07-b546-54eb1396d79b", orders.get(0),
@@ -80,8 +81,7 @@ class PaymentRepositoryTest {
 
         // change payment data
         Payment newPayment = new Payment(payment.getId(), payment.getOrder(), payment.getMethod(),payment.getStatus(),
-                payments.get(0).getPaymentData());
-//        Payment newPayment = new Payment(payment.getId(), payment.getOrder(), payment.getMethod(), payments.get(0).getPaymentData());
+                payments.get(1).getPaymentData());
         Payment result = paymentRepository.save(newPayment);
 
         Payment findResult = paymentRepository.findById(payments.get(1).getId());
@@ -90,10 +90,8 @@ class PaymentRepositoryTest {
         assertEquals(payment.getId(), findResult.getId());
         assertEquals(payment.getMethod(), findResult.getMethod());
         assertEquals(payment.getStatus(), findResult.getStatus());
-        assertEquals(payments.getFirst().getPaymentData(), findResult.getPaymentData());
+        assertEquals(payments.get(1).getPaymentData(), findResult.getPaymentData());
         assertSame(payment.getOrder(), findResult.getOrder());
-
-
     }
     @Test
     void testFindByIdIfIdFound() {
