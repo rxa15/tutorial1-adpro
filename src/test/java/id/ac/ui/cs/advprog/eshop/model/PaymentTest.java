@@ -109,8 +109,8 @@ class PaymentTest {
         Map<String, String> paymentData = new HashMap<>();
         paymentData.put("voucherCode", "ESHOP12345678RXA");
 
-        Payment payment = new Payment("13652556-0115-4c07-b546-54eb1396d79b",
-                "Voucher Code", "SUCCESS", new HashMap<>());
+        Payment payment = new Payment("13652556-0115-4c07-b546-54eb1396d79b", orders.get(0),
+                "Voucher Code", "SUCCESS", paymentData);
         assertThrows(IllegalArgumentException.class, () -> {
             payment.setStatus("WKWKWK");
         }, "Payment Status is invalid!");
