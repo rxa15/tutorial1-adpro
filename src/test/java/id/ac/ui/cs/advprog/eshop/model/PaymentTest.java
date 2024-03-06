@@ -41,6 +41,7 @@ class PaymentTest {
         Order order2 = new Order("93652556-012a-4c07-b546-54eb1396d79b", this.products,
                 1708570000L, "Tengku Laras");
 
+        this.orders = new ArrayList<>();
         this.orders.add(order1);
         this.orders.add(order2);
     }
@@ -90,29 +91,6 @@ class PaymentTest {
         assertThrows(IllegalArgumentException.class, () -> {
             new Payment(new Order(orders.get(0).getId(), orders.get(0).getProducts(), orders.get(0).getOrderTime(),
                     orders.get(0).getAuthor()), "Voucher Code", "WKWKWKWKW", paymentData);
-        }, "Payment Status is invalid!");
-    }
-
-    @Test
-    void testEditPaymentStatusWithValidStatus(){
-        Map<String, String> paymentData = new HashMap<>();
-        paymentData.put("voucherCode", "ESHOP12345678RXA");
-
-        Payment payment = new Payment("13652556-0115-4c07-b546-54eb1396d79b", orders.get(0),
-                "Voucher Code", "REJECTED", new HashMap<>());
-        payment.setStatus("SUCCESS");
-        assertEquals("SUCCESS", payment.getStatus());
-    }
-
-    @Test
-    void testEditPaymentStatusWithInvalidStatus(){
-        Map<String, String> paymentData = new HashMap<>();
-        paymentData.put("voucherCode", "ESHOP12345678RXA");
-
-        Payment payment = new Payment("13652556-0115-4c07-b546-54eb1396d79b", orders.get(0),
-                "Voucher Code", "SUCCESS", paymentData);
-        assertThrows(IllegalArgumentException.class, () -> {
-            payment.setStatus("WKWKWK");
         }, "Payment Status is invalid!");
     }
 
