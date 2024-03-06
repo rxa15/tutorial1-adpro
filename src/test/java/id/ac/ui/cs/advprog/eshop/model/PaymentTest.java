@@ -1,6 +1,7 @@
 package id.ac.ui.cs.advprog.eshop.model;
 
 import id.ac.ui.cs.advprog.eshop.enums.PaymentMethod;
+import id.ac.ui.cs.advprog.eshop.enums.PaymentStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -54,7 +55,7 @@ class PaymentTest {
 
         assertThrows(IllegalArgumentException.class, () -> {
             new Payment(new Order(orders.get(0).getId(), orders.get(0).getProducts(), orders.get(0).getOrderTime(),
-                    orders.get(0).getAuthor()), "", "SUCCESS", paymentData);
+                    orders.get(0).getAuthor()), "", PaymentStatus.SUCCESS.getValue(), paymentData);
         }, "Payment Method cannot be empty!");
     }
 
@@ -75,11 +76,11 @@ class PaymentTest {
         paymentData.put("voucherCode", "ESHOP12345678RXA");
 
         Payment payment = new Payment("13652556-0115-4c07-b546-54eb1396d79b", orders.get(0),
-                PaymentMethod.VOUCHER_CODE.getValue(), "SUCCESS", paymentData);
+                PaymentMethod.VOUCHER_CODE.getValue(), PaymentStatus.SUCCESS.getValue(), paymentData);
 
         assertEquals("13652556-0115-4c07-b546-54eb1396d79b", payment.getId());
         assertEquals(PaymentMethod.VOUCHER_CODE.getValue(), payment.getMethod());
-        assertEquals("SUCCESS", payment.getStatus());
+        assertEquals(PaymentStatus.SUCCESS.getValue(), payment.getStatus());
         assertEquals(orders.get(0), payment.getOrder());
         assertEquals(paymentData, payment.getPaymentData());
     }
@@ -102,7 +103,7 @@ class PaymentTest {
 
         assertThrows(IllegalArgumentException.class, () -> {
             new Payment("13652556-0115-4c07-b546-54eb1396d79b", orders.get(0),
-                    PaymentMethod.VOUCHER_CODE.getValue(), "SUCCESS", paymentData);}, "Voucher Code is invalid!");
+                    PaymentMethod.VOUCHER_CODE.getValue(), PaymentStatus.SUCCESS.getValue(), paymentData);}, "Voucher Code is invalid!");
     }
 
     @Test
@@ -112,7 +113,7 @@ class PaymentTest {
 
         assertThrows(IllegalArgumentException.class, () -> {
             new Payment("13652556-0115-4c07-b546-54eb1396d79b", orders.get(0),
-                    PaymentMethod.VOUCHER_CODE.getValue(), "SUCCESS", paymentData);}, "Voucher Code is invalid!");
+                    PaymentMethod.VOUCHER_CODE.getValue(), PaymentStatus.SUCCESS.getValue(), paymentData);}, "Voucher Code is invalid!");
     }
 
     @Test
@@ -122,7 +123,7 @@ class PaymentTest {
 
         assertThrows(IllegalArgumentException.class, () -> {
             new Payment("13652556-0115-4c07-b546-54eb1396d79b", orders.get(0),
-                    PaymentMethod.VOUCHER_CODE.getValue(), "SUCCESS", paymentData);}, "Voucher Code is invalid!");
+                    PaymentMethod.VOUCHER_CODE.getValue(), PaymentStatus.SUCCESS.getValue(), paymentData);}, "Voucher Code is invalid!");
     }
 
     @Test
@@ -132,11 +133,11 @@ class PaymentTest {
         paymentData.put("deliveryFee", "20000");
 
         Payment payment = new Payment("13652556-0115-4c07-b546-54eb1396d79b", orders.get(1),
-                "COD", "SUCCESS", paymentData);
+                PaymentMethod.COD.getValue(), PaymentStatus.SUCCESS.getValue(), paymentData);
 
         assertEquals("13652556-0115-4c07-b546-54eb1396d79b", payment.getId());
-        assertEquals("COD", payment.getMethod());
-        assertEquals("SUCCESS", payment.getStatus());
+        assertEquals(PaymentMethod.COD.getValue(), payment.getMethod());
+        assertEquals(PaymentStatus.SUCCESS.getValue(), payment.getStatus());
         assertEquals(orders.get(1), payment.getOrder());
         assertEquals(paymentData, payment.getPaymentData());
     }
@@ -148,7 +149,7 @@ class PaymentTest {
         paymentData.put("deliveryFee", "20000");
 
         assertThrows(IllegalArgumentException.class, () -> {
-            new Payment("13652556-0115-4c07-b546-54eb1396d79b", orders.get(1), "COD", "SUCCESS", paymentData);
+            new Payment("13652556-0115-4c07-b546-54eb1396d79b", orders.get(1), PaymentMethod.COD.getValue(), PaymentStatus.SUCCESS.getValue(), paymentData);
         });
     }
 
@@ -159,7 +160,7 @@ class PaymentTest {
         paymentData.put("deliveryFee", "");
 
         assertThrows(IllegalArgumentException.class, () -> {
-            new Payment("13652556-0115-4c07-b546-54eb1396d79b", orders.get(1), "COD", "SUCCESS", paymentData);
+            new Payment("13652556-0115-4c07-b546-54eb1396d79b", orders.get(1), PaymentMethod.COD.getValue(), PaymentStatus.SUCCESS.getValue(), paymentData);
         });
     }
 }
