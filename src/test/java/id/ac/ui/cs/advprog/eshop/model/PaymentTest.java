@@ -1,5 +1,6 @@
 package id.ac.ui.cs.advprog.eshop.model;
 
+import id.ac.ui.cs.advprog.eshop.enums.PaymentMethod;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -64,7 +65,7 @@ class PaymentTest {
 
         assertThrows(IllegalArgumentException.class, () -> {
             new Payment(new Order(orders.get(0).getId(), orders.get(0).getProducts(), orders.get(0).getOrderTime(),
-                    orders.get(0).getAuthor()), "Voucher Code", "", paymentData);
+                    orders.get(0).getAuthor()), PaymentMethod.VOUCHER_CODE.getValue(), "", paymentData);
         }, "Payment Status cannot be empty!");
     }
 
@@ -74,10 +75,10 @@ class PaymentTest {
         paymentData.put("voucherCode", "ESHOP12345678RXA");
 
         Payment payment = new Payment("13652556-0115-4c07-b546-54eb1396d79b", orders.get(0),
-                "Voucher Code", "SUCCESS", paymentData);
+                PaymentMethod.VOUCHER_CODE.getValue(), "SUCCESS", paymentData);
 
         assertEquals("13652556-0115-4c07-b546-54eb1396d79b", payment.getId());
-        assertEquals("Voucher Code", payment.getMethod());
+        assertEquals(PaymentMethod.VOUCHER_CODE.getValue(), payment.getMethod());
         assertEquals("SUCCESS", payment.getStatus());
         assertEquals(orders.get(0), payment.getOrder());
         assertEquals(paymentData, payment.getPaymentData());
@@ -90,7 +91,7 @@ class PaymentTest {
 
         assertThrows(IllegalArgumentException.class, () -> {
             new Payment(new Order(orders.get(0).getId(), orders.get(0).getProducts(), orders.get(0).getOrderTime(),
-                    orders.get(0).getAuthor()), "Voucher Code", "WKWKWKWKW", paymentData);
+                    orders.get(0).getAuthor()), PaymentMethod.VOUCHER_CODE.getValue(), "WKWKWKWKW", paymentData);
         }, "Payment Status is invalid!");
     }
 
@@ -101,7 +102,7 @@ class PaymentTest {
 
         assertThrows(IllegalArgumentException.class, () -> {
             new Payment("13652556-0115-4c07-b546-54eb1396d79b", orders.get(0),
-                    "Voucher Code", "SUCCESS", paymentData);}, "Voucher Code is invalid!");
+                    PaymentMethod.VOUCHER_CODE.getValue(), "SUCCESS", paymentData);}, "Voucher Code is invalid!");
     }
 
     @Test
@@ -111,7 +112,7 @@ class PaymentTest {
 
         assertThrows(IllegalArgumentException.class, () -> {
             new Payment("13652556-0115-4c07-b546-54eb1396d79b", orders.get(0),
-                    "Voucher Code", "SUCCESS", paymentData);}, "Voucher Code is invalid!");
+                    PaymentMethod.VOUCHER_CODE.getValue(), "SUCCESS", paymentData);}, "Voucher Code is invalid!");
     }
 
     @Test
@@ -121,7 +122,7 @@ class PaymentTest {
 
         assertThrows(IllegalArgumentException.class, () -> {
             new Payment("13652556-0115-4c07-b546-54eb1396d79b", orders.get(0),
-                    "Voucher Code", "SUCCESS", paymentData);}, "Voucher Code is invalid!");
+                    PaymentMethod.VOUCHER_CODE.getValue(), "SUCCESS", paymentData);}, "Voucher Code is invalid!");
     }
 
     @Test

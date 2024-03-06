@@ -1,5 +1,6 @@
 package id.ac.ui.cs.advprog.eshop.model;
 
+import id.ac.ui.cs.advprog.eshop.enums.PaymentMethod;
 import lombok.Getter;
 
 import java.util.Arrays;
@@ -18,7 +19,6 @@ public class Payment {
         this.id = id;
         this.order = order;
         this.method = method;
-        setPaymentStatus(status);
         setPaymentData(paymentData);
     }
     public Payment(Order order, String method, String status, Map<String, String>paymentData){
@@ -44,7 +44,7 @@ public class Payment {
     }
 
     private void setPaymentData(Map<String, String>paymentData){
-        if (method.equals("Voucher Code")){
+        if (method.equals(PaymentMethod.VOUCHER_CODE.getValue())){
             int numbers = 0;
             for (int i=0; i < paymentData.get("voucherCode").length(); i++){
                 if (Character.isDigit(paymentData.get("voucherCode").charAt(i))){
@@ -56,7 +56,7 @@ public class Payment {
                     numbers != 8){
                 throw new IllegalArgumentException("Voucher Code is invalid!");
             }
-        } else if (method.equals("COD")){
+        } else if (method.equals(PaymentMethod.COD.getValue())){
             if (paymentData.get("address").isBlank() ||
                     paymentData.get("deliveryFee").isBlank()){
                 throw new IllegalArgumentException();
